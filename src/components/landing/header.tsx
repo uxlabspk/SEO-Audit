@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Shield } from "lucide-react";
 
 export function Header() {
   return (
@@ -24,6 +25,10 @@ export function Header() {
           >
             Pricing
           </Link>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Shield className="size-3" />
+            <span>Secure</span>
+          </div>
         </nav>
         <div className="flex items-center gap-3">
           <Link href="/login">

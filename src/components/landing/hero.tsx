@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Shield, Zap, Clock } from "lucide-react";
 
 export function Hero() {
   return (
@@ -14,7 +14,7 @@ export function Hero() {
         <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
           Your website, audited
           <br />
-          <span className="text-muted-foreground">in seconds</span>
+          <span className="text-primary">in seconds</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           Run real checks against Core Web Vitals, SEO, accessibility, and
@@ -34,6 +34,22 @@ export function Hero() {
             </Button>
           </Link>
         </div>
+
+        <div className="mx-auto mt-10 flex max-w-lg items-center justify-center gap-8 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Shield className="size-4 text-primary" />
+            <span>No credit card required</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Zap className="size-4 text-primary" />
+            <span>Results in under 30s</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="size-4 text-primary" />
+            <span>Free tier available</span>
+          </div>
+        </div>
+
         <div className="mx-auto mt-16 max-w-3xl rounded-xl border bg-card p-2 shadow-2xl shadow-primary/5">
           <div className="rounded-lg bg-muted/30 p-4 font-mono text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">

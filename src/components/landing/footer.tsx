@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Shield } from "lucide-react";
 
 export function Footer() {
   return (
@@ -32,7 +33,17 @@ export function Footer() {
             </Link>
           </nav>
         </div>
-        <div className="mt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-8 flex items-center justify-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <Shield className="size-3" />
+            <span>SSL Encrypted</span>
+          </div>
+          <span>•</span>
+          <span>GDPR Compliant</span>
+          <span>•</span>
+          <span>No data stored after audit</span>
+        </div>
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Probe. All rights reserved.
         </div>
       </div>
