@@ -55,7 +55,7 @@ const features = [
 export function Features() {
   return (
     <section id="features" className="border-t py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto container px-6">
         <div className="text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
             Comprehensive Audits

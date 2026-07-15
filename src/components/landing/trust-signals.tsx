@@ -32,7 +32,7 @@ const trustedBy = [
 export function TrustSignals() {
   return (
     <section className="border-t bg-muted/30 py-16">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto container px-6">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">

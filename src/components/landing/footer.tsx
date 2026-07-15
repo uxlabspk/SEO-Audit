@@ -4,7 +4,7 @@ import { Shield } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto container px-6 py-12">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex items-center gap-2">
             <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground font-mono text-xs font-bold">
@@ -34,16 +34,6 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-8 flex items-center justify-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <Shield className="size-3" />
-            <span>SSL Encrypted</span>
-          </div>
-          <span>•</span>
-          <span>GDPR Compliant</span>
-          <span>•</span>
-          <span>No data stored after audit</span>
-        </div>
-        <div className="mt-4 text-center text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Probe. All rights reserved.
         </div>
       </div>

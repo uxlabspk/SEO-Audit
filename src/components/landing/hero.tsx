@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-4xl px-6 text-center">
+      <div className="relative mx-auto container px-6 text-center">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-muted/50 px-4 py-1.5 text-sm text-muted-foreground">
           <span className="size-1.5 animate-pulse rounded-full bg-success" />
           Powered by AI
@@ -35,7 +35,7 @@ export function Hero() {
           </Link>
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-lg items-center justify-center gap-8 text-sm text-muted-foreground">
+        <div className="mx-auto mt-10 flex  items-center justify-center gap-8 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Shield className="size-4 text-primary" />
             <span>No credit card required</span>
@@ -50,7 +50,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mx-auto mt-16 max-w-3xl rounded-xl border bg-card p-2 shadow-2xl shadow-primary/5">
+        <div className="mx-auto text-start mt-16 max-w-3xl rounded-xl border bg-card p-2 shadow-2xl shadow-primary/5">
           <div className="rounded-lg bg-muted/30 p-4 font-mono text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
               <span className="text-success">$</span>

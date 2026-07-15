@@ -5,7 +5,7 @@ import { Shield } from "lucide-react";
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-lg">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 container items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-mono text-sm font-bold">
             P
@@ -25,10 +25,6 @@ export function Header() {
           >
             Pricing
           </Link>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Shield className="size-3" />
-            <span>Secure</span>
-          </div>
         </nav>
         <div className="flex items-center gap-3">
           <Link href="/login">
