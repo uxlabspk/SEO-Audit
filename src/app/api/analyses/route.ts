@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { processAnalysis } from "@/lib/analyzer/pipeline";
+import { getSession } from "@/lib/auth";
 
 function normalizeUrl(input: string): string {
   const trimmed = input.trim();
@@ -30,8 +31,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid URL" }, { status: 400 });
   }
 
+  const session = await getSession();
+
   const analysis = await prisma.analysis.create({
-    data: { url, status: "QUEUED" },
+    data: {
+      url,
+      status: "QUEUED",
+      userId: session?.userId,
+    },
   });
 
   // Fire-and-forget: process in the background. In production, swap this
@@ -46,7 +53,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
+  const session = await getSession();
+
   const analyses = await prisma.analysis.findMany({
+    where: session?.userId ? { userId: session.userId } : undefined,
     orderBy: { createdAt: "desc" },
     take: 50,
     select: {
