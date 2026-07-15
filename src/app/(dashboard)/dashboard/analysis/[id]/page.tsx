@@ -24,7 +24,7 @@ export default async function AnalysisPage({
   const findings = analysis.findings as Record<string, unknown> | null;
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto container">
       <div className="mb-6">
         <Link href="/dashboard">
           <Button variant="ghost" size="sm" className="gap-2 mb-4">
