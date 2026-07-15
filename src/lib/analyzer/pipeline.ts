@@ -55,10 +55,14 @@ export async function processAnalysis(analysisId: string): Promise<void> {
       // Throttle DB writes to every ~500ms instead of on every token.
       if (Date.now() - lastFlush > 500) {
         lastFlush = Date.now();
-        await prisma.analysis.update({
-          where: { id: analysisId },
-          data: { reportMarkdown: reportBuffer },
-        });
+        try {
+          await prisma.analysis.update({
+            where: { id: analysisId },
+            data: { reportMarkdown: reportBuffer },
+          });
+        } catch (e) {
+          console.error("Failed to flush report chunk:", e);
+        }
       }
     });
 

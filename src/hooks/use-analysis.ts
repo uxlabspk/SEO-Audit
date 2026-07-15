@@ -58,7 +58,7 @@ export function useAnalysis() {
 
     setState((prev) => ({ ...prev, analysisId: id }));
 
-    const es = new EventSource(`/api/analyses/${id}/stream`);
+    const es = new EventSource(`/api/analyses/${id}?stream=true`);
     eventSourceRef.current = es;
 
     es.addEventListener("status", (e) => {
