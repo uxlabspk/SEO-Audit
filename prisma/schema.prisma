@@ -19,12 +19,14 @@ enum AnalysisStatus {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  password  String?
-  createdAt DateTime   @default(now())
-  analyses  Analysis[]
+  id               String     @id @default(cuid())
+  email            String     @unique
+  name             String?
+  password         String?
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime   @default(now())
+  analyses         Analysis[]
 }
 
 model Analysis {
