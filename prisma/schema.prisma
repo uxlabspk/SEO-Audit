@@ -1,0 +1,58 @@
+// Prisma schema for the Site Analyzer SaaS
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AnalysisStatus {
+  QUEUED
+  FETCHING
+  RUNNING_CHECKS
+  GENERATING_REPORT
+  COMPLETE
+  FAILED
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  analyses  Analysis[]
+}
+
+model Analysis {
+  id          String         @id @default(cuid())
+  url         String
+  status      AnalysisStatus @default(QUEUED)
+  statusStep  String? // human readable current step, e.g. "Checking SEO signals..."
+  errorMessage String?
+
+  // Raw findings from the automated checks (mirrors the Python `findings` dict)
+  findings    Json?
+
+  // AI-generated markdown report
+  reportMarkdown String?
+
+  // Convenience denormalized score fields for list views / dashboards
+  performanceScore   Int?
+  seoScore           Int?
+  accessibilityScore Int?
+  bestPracticesScore Int?
+
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  completedAt DateTime?
+
+  @@index([userId])
+  @@index([url])
+  @@index([createdAt])
+}
