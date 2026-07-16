@@ -1,5 +1,5 @@
-import { Pricing } from "@/components/landing/pricing";
+import { PricingPage } from "@/components/landing/pricing-page";
 
-export default function PricingPage() {
-  return <Pricing />;
+export default function PricingRoute() {
+  return <PricingPage />;
 }

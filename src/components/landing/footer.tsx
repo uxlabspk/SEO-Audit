@@ -14,13 +14,13 @@ export function Footer() {
           </div>
           <nav className="flex gap-6">
             <Link
-              href="/#features"
+              href="/features"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Features
             </Link>
             <Link
-              href="/#pricing"
+              href="/pricing"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Pricing

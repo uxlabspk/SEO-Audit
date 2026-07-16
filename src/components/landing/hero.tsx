@@ -28,7 +28,7 @@ export function Hero() {
               <ArrowRight className="size-4" />
             </Button>
           </Link>
-          <Link href="/#features">
+          <Link href="/features">
             <Button variant="outline" size="lg">
               See how it works
             </Button>
