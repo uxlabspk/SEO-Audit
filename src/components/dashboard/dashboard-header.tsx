@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { LogOut, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { LogOut, User, AlertTriangle } from "lucide-react";
 
 interface DashboardHeaderProps {
   user: {
     name: string | null;
     email: string;
   };
+  emailVerified: boolean;
 }
 
-export function DashboardHeader({ user }: DashboardHeaderProps) {
+export function DashboardHeader({ user, emailVerified }: DashboardHeaderProps) {
   const router = useRouter();
 
   async function handleLogout() {
@@ -33,6 +35,14 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
       </div>
       <div className="flex-1" />
       <div className="flex items-center gap-3">
+        {!emailVerified && (
+          <Link href="/verify-email">
+            <Badge variant="warning" className="gap-1 cursor-pointer">
+              <AlertTriangle className="size-3" />
+              Verify email
+            </Badge>
+          </Link>
+        )}
         <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
           <User className="size-4" />
           {user.name || user.email}

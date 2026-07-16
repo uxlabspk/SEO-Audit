@@ -13,7 +13,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen flex-col">
-      <DashboardHeader user={user} />
+      <DashboardHeader user={user} emailVerified={!!user.emailVerified} />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>

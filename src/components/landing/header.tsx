@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Shield } from "lucide-react";
+import { UserMenu } from "@/components/landing/user-menu";
+import { getCurrentUser } from "@/lib/auth";
 
-export function Header() {
+export async function Header() {
+  const user = await getCurrentUser();
+
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 container items-center justify-between px-6">
@@ -27,14 +30,20 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/login">
-            <Button variant="ghost" size="sm">
-              Sign in
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button size="sm">Get started</Button>
-          </Link>
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  Sign in
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm">Get started</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

@@ -10,17 +10,22 @@ export const metadata: Metadata = {
 export default function ResetPasswordPage() {
   return (
     <>
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold tracking-tight">Reset password</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Reset password
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
           Enter your new password below
         </p>
       </div>
       <Suspense>
         <ResetPasswordForm />
       </Suspense>
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        <Link href="/login" className="font-medium text-primary hover:underline">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        <Link
+          href="/login"
+          className="font-medium text-primary hover:underline"
+        >
           Back to sign in
         </Link>
       </p>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
+import { sendEmail, passwordResetEmailHtml } from "@/lib/email";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -14,7 +15,10 @@ export async function POST(req: NextRequest) {
 
     if (!result.success) {
       return NextResponse.json(
-        { error: result.error.flatten().fieldErrors.email?.[0] || "Invalid email" },
+        {
+          error:
+            result.error.flatten().fieldErrors.email?.[0] || "Invalid email",
+        },
         { status: 400 }
       );
     }
@@ -30,19 +34,20 @@ export async function POST(req: NextRequest) {
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
 
     await prisma.user.update({
       where: { id: user.id },
-      data: {
-        resetToken,
-        resetTokenExpiry,
-      },
+      data: { resetToken, resetTokenExpiry },
     });
 
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
 
-    console.log("Password reset URL:", resetUrl);
+    await sendEmail({
+      to: user.email,
+      subject: "Reset your password",
+      html: passwordResetEmailHtml(resetUrl),
+    });
 
     return NextResponse.json({ success: true });
   } catch {
