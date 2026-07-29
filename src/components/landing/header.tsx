@@ -28,6 +28,12 @@ export async function Header() {
           >
             Pricing
           </Link>
+          <Link
+            href="/about"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            About
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           {user ? (
