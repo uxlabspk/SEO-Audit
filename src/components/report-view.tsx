@@ -22,7 +22,8 @@ export function ReportView({ markdown, isStreaming }: ReportViewProps) {
           prose-p:text-foreground/90 prose-p:leading-relaxed
           prose-strong:text-foreground prose-strong:font-semibold
           prose-li:text-foreground/90
-          prose-code:font-mono prose-code:text-xs prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+          prose-code:font-mono prose-code:text-xs prose-code:text-foreground prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+          prose-pre:bg-secondary prose-pre:text-foreground
           prose-a:text-primary"
       >
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
