@@ -25,13 +25,11 @@ export function DashboardHeader({ user, emailVerified }: DashboardHeaderProps) {
 
   return (
     <header className="flex h-14 items-center justify-between border-b bg-background px-6">
-      <div className="flex items-center gap-4 lg:hidden">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground font-mono text-xs font-bold">
-            P
+      <div className={'flex items-center justify-center gap-2'}>
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-mono text-sm font-bold">
+              P
           </div>
-          <span className="font-semibold tracking-tight">Probe</span>
-        </Link>
+          <span className="text-lg font-semibold tracking-tight">Probe</span>
       </div>
       <div className="flex-1" />
       <div className="flex items-center gap-3">
