@@ -14,7 +14,7 @@ export function ReportView({ markdown, isStreaming }: ReportViewProps) {
   return (
     <div className="rounded-lg border border-border bg-card/60 p-6 sm:p-8">
       <div
-        className="prose prose-invert prose-sm sm:prose-base max-w-none
+        className="prose prose-sm sm:prose-base max-w-none
           prose-headings:font-medium prose-headings:tracking-tight
           prose-h1:text-xl prose-h1:mb-4
           prose-h2:text-base prose-h2:mt-8 prose-h2:mb-3 prose-h2:font-mono prose-h2:uppercase prose-h2:tracking-wide prose-h2:text-muted-foreground prose-h2:border-b prose-h2:border-border prose-h2:pb-2

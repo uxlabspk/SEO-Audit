@@ -12,11 +12,11 @@ function scoreColor(score: number | null) {
   return "text-destructive";
 }
 
-function scoreRingColor(score: number | null) {
-  if (score === null) return "stroke-muted-foreground/30";
-  if (score >= 90) return "stroke-success";
-  if (score >= 50) return "stroke-warning";
-  return "stroke-destructive";
+function scoreRingVar(score: number | null) {
+  if (score === null) return "var(--muted-foreground)";
+  if (score >= 90) return "var(--success)";
+  if (score >= 50) return "var(--warning)";
+  return "var(--destructive)";
 }
 
 export function ScoreCard({ label, score }: ScoreCardProps) {
@@ -33,8 +33,8 @@ export function ScoreCard({ label, score }: ScoreCardProps) {
             cy="30"
             r="26"
             fill="none"
+            stroke="var(--muted)"
             strokeWidth="4"
-            className="stroke-muted"
           />
           {score !== null && (
             <circle
@@ -42,11 +42,12 @@ export function ScoreCard({ label, score }: ScoreCardProps) {
               cy="30"
               r="26"
               fill="none"
+              stroke={scoreRingVar(score)}
               strokeWidth="4"
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={offset}
-              className={cn("transition-all duration-700", scoreRingColor(score))}
+              className="transition-all duration-700"
             />
           )}
         </svg>

@@ -165,18 +165,21 @@ class AnthropicProvider implements LlmProvider {
 }
 
 // ---------------------------------------------------------------------------
-// OpenAI -- alternative production backend
+// OpenAI-compatible base (shared SSE parsing for OpenAI, Mistral, etc.)
 // ---------------------------------------------------------------------------
-class OpenAiProvider implements LlmProvider {
-  name = "openai";
-  private apiKey: string;
-  private model: string;
+class OpenAiCompatibleProvider implements LlmProvider {
+  name: string;
+  protected apiKey: string;
+  protected model: string;
+  protected baseUrl: string;
 
-  constructor() {
-    this.apiKey = process.env.OPENAI_API_KEY || "";
-    this.model = process.env.OPENAI_MODEL || "gpt-4o";
+  constructor(name: string, apiKeyEnv: string, modelEnv: string, defaultModel: string, defaultBaseUrl: string) {
+    this.name = name;
+    this.apiKey = process.env[apiKeyEnv] || "";
+    this.model = process.env[modelEnv] || defaultModel;
+    this.baseUrl = process.env[`${name.toUpperCase()}_BASE_URL`] || defaultBaseUrl;
     if (!this.apiKey) {
-      throw new Error("OPENAI_API_KEY is not set");
+      throw new Error(`${apiKeyEnv} is not set`);
     }
   }
 
@@ -184,7 +187,7 @@ class OpenAiProvider implements LlmProvider {
     systemPrompt: string,
     userPrompt: string
   ): AsyncGenerator<StreamChunk> {
-    const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+    const resp = await fetch(this.baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -203,7 +206,7 @@ class OpenAiProvider implements LlmProvider {
 
     if (!resp.ok || !resp.body) {
       const text = await resp.text().catch(() => "");
-      throw new Error(`OpenAI API error: ${resp.status} ${text}`);
+      throw new Error(`${this.name} API error: ${resp.status} ${text}`);
     }
 
     const reader = resp.body.getReader();
@@ -234,6 +237,18 @@ class OpenAiProvider implements LlmProvider {
   }
 }
 
+class OpenAiProvider extends OpenAiCompatibleProvider {
+  constructor() {
+    super("openai", "OPENAI_API_KEY", "OPENAI_MODEL", "gpt-4o", "https://api.openai.com/v1/chat/completions");
+  }
+}
+
+class MistralProvider extends OpenAiCompatibleProvider {
+  constructor() {
+    super("mistral", "MISTRAL_API_KEY", "MISTRAL_MODEL", "mistral-large-latest", "https://api.mistral.ai/v1/chat/completions");
+  }
+}
+
 export function getLlmProvider(): LlmProvider {
   const providerName = process.env.LLM_PROVIDER || "lmstudio";
 
@@ -242,6 +257,8 @@ export function getLlmProvider(): LlmProvider {
       return new AnthropicProvider();
     case "openai":
       return new OpenAiProvider();
+    case "mistral":
+      return new MistralProvider();
     case "lmstudio":
     default:
       return new LmStudioProvider();
