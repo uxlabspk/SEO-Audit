@@ -2,14 +2,14 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { sendEmail, verificationEmailHtml } from "@/lib/email";
+import {
+  sendEmail,
+  verificationEmailHtml,
+  buildVerifyEmailLink,
+} from "@/lib/email";
 
 function generateToken(): string {
   return crypto.randomBytes(32).toString("hex");
-}
-
-function getBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 }
 
 export async function POST() {
@@ -46,8 +46,7 @@ export async function POST() {
       },
     });
 
-    const verifyUrl = `${getBaseUrl()}/verify-email?token=${token}`;
-
+    const verifyUrl = buildVerifyEmailLink(token, user.email);
     await sendEmail({
       to: user.email,
       subject: "Verify your email address",

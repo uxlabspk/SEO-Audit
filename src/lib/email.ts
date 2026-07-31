@@ -6,31 +6,71 @@ interface SendEmailOptions {
   html: string;
 }
 
-function getTransporter() {
+function parseBoolean(value: string | undefined, fallback: boolean): boolean {
+  if (value === undefined) return fallback;
+  return value.toLowerCase() === "true";
+}
+
+function getTransportConfig() {
   const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT || "465", 10);
+  const port = Number(process.env.SMTP_PORT ?? "587");
+  const secure = parseBoolean(process.env.SMTP_SECURE, port === 465);
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
 
-  if (!host || !user || !pass) {
-    throw new Error(
-      "SMTP configuration missing. Set SMTP_HOST, SMTP_USER, and SMTP_PASS in .env"
-    );
-  }
+  if (!host || !user || !pass) return null;
 
-  return nodemailer.createTransport({
+  return {
     host,
     port,
-    secure: port === 465,
+    secure,
     auth: { user, pass },
-  });
+  };
 }
 
-export async function sendEmail({ to, subject, html }: SendEmailOptions) {
-  const transporter = getTransporter();
+// ponytail: retry on transient DNS/connectivity failures
+export async function sendEmail(
+  { to, subject, html }: SendEmailOptions,
+  retries = 3
+): Promise<boolean> {
   const from = process.env.SMTP_FROM || process.env.SMTP_USER;
+  const config = getTransportConfig();
 
-  await transporter.sendMail({ from, to, subject, html });
+  if (!from || !config) {
+    console.warn("Email service is not configured. Skipping email send.");
+    return false;
+  }
+
+  const transporter = nodemailer.createTransport(config);
+
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      await transporter.sendMail({ from, to, subject, html });
+      return true;
+    } catch (err) {
+      if (attempt === retries) {
+        console.error("Email send failed after retries:", err);
+        return false;
+      }
+      await new Promise((r) => setTimeout(r, 1000 * attempt));
+    }
+  }
+
+  return false;
+}
+
+export function buildVerifyEmailLink(token: string, email?: string): string {
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const url = new URL(base);
+  url.pathname = "/verify-email";
+  url.searchParams.set("token", token);
+  if (email) url.searchParams.set("email", email);
+  return url.toString();
+}
+
+export function buildResetPasswordLink(token: string): string {
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  return `${base}/reset-password?token=${encodeURIComponent(token)}`;
 }
 
 export function verificationEmailHtml(url: string): string {

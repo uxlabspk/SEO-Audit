@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { sendEmail, passwordResetEmailHtml } from "@/lib/email";
+import { sendEmail, passwordResetEmailHtml, buildResetPasswordLink } from "@/lib/email";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       data: { resetToken, resetTokenExpiry },
     });
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
+    const resetUrl = buildResetPasswordLink(resetToken);
 
     await sendEmail({
       to: user.email,

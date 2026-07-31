@@ -3,7 +3,11 @@ import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { createSession, hashPassword } from "@/lib/auth";
-import { sendEmail, verificationEmailHtml } from "@/lib/email";
+import {
+  sendEmail,
+  verificationEmailHtml,
+  buildVerifyEmailLink,
+} from "@/lib/email";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -14,10 +18,6 @@ const registerSchema = z.object({
     .regex(/[a-zA-Z]/, "Password must contain at least one letter")
     .regex(/[0-9]/, "Password must contain at least one number"),
 });
-
-function getBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -60,8 +60,7 @@ export async function POST(req: NextRequest) {
 
     await createSession(user.id, user.email);
 
-    const verifyUrl = `${getBaseUrl()}/verify-email?token=${verificationToken}`;
-
+    const verifyUrl = buildVerifyEmailLink(verificationToken, user.email);
     await sendEmail({
       to: user.email,
       subject: "Verify your email address",
