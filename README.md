@@ -135,20 +135,3 @@ Open `http://localhost:3000`, enter a URL, watch it scan.
   is a minimal placeholder — wire up your auth provider of choice (Clerk,
   Auth.js, Supabase Auth) and a billing provider (Stripe) before charging
   people. `Analysis.userId` is already there to scope results per account.
-
-## Known limitation from this build environment
-
-`npx shadcn@latest init` and `npx prisma generate` both failed here because
-this sandbox's network allowlist doesn't include `ui.shadcn.com` or
-`binaries.prisma.sh`. Everything was hand-built to match what those CLIs
-would produce, and the whole app **type-checks and lints clean** (verified
-with a temporary local stub of the generated Prisma client, since actually
-generating it needs that blocked domain). On your machine (normal internet
-access), `npm install` will run `prisma generate` successfully via the
-`postinstall` hook, and you can optionally run `npx shadcn@latest add
-<component>` to pull in more shadcn components later.
-
-Note: this project targets **Prisma 7**, which shipped breaking changes
-(config moved to `prisma.config.ts`, `PrismaClient` now requires an explicit
-driver adapter). Both are already wired up — see `prisma.config.ts` and
-`src/lib/prisma.ts`.
