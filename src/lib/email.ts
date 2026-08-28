@@ -62,7 +62,7 @@ export async function sendEmail(
 export function buildVerifyEmailLink(token: string, email?: string): string {
   const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   const url = new URL(base);
-  url.pathname = "/verify-email";
+  url.pathname = "/api/auth/verify-email";
   url.searchParams.set("token", token);
   if (email) url.searchParams.set("email", email);
   return url.toString();
