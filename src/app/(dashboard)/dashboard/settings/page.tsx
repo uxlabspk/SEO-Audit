@@ -1,7 +1,14 @@
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
+import { ProfileForm } from "@/components/settings/profile-form";
+import { ChangePasswordForm } from "@/components/settings/change-password-form";
+import { AccountStats } from "@/components/settings/account-stats";
+import { DangerZone } from "@/components/settings/danger-zone";
+import { AvatarSection } from "@/components/settings/avatar-section";
 
 export default async function SettingsPage() {
   const user = await getCurrentUser();
+  if (!user) redirect("/login");
 
   return (
     <div className="mx-auto container">
@@ -12,32 +19,16 @@ export default async function SettingsPage() {
         </p>
       </div>
 
-      <div className="rounded-xl border bg-card p-6">
-        <h2 className="text-sm font-medium">Profile</h2>
-        <div className="mt-4 space-y-4">
-          <div>
-            <label className="text-xs text-muted-foreground">Name</label>
-            <p className="text-sm">{user?.name || "Not set"}</p>
-          </div>
-          <div>
-            <label className="text-xs text-muted-foreground">Email</label>
-            <p className="text-sm">{user?.email}</p>
-          </div>
-          <div>
-            <label className="text-xs text-muted-foreground">
-              Member since
-            </label>
-            <p className="text-sm">
-              {user?.createdAt
-                ? new Date(user.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })
-                : "Unknown"}
-            </p>
-          </div>
-        </div>
+      <div className="space-y-6">
+        <AccountStats userId={user.id} emailVerified={user.emailVerified} />
+        <AvatarSection
+          avatar={user.avatar}
+          name={user.name}
+          email={user.email}
+        />
+        <ProfileForm name={user.name} email={user.email} />
+        <ChangePasswordForm />
+        <DangerZone />
       </div>
     </div>
   );

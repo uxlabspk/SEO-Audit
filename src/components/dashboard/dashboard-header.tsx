@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,20 +16,9 @@ interface DashboardHeaderProps {
   user: {
     name: string | null;
     email: string;
+    avatar: string | null;
   };
   emailVerified: boolean;
-}
-
-function getInitials(name: string | null, email: string): string {
-  if (name) {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  }
-  return email[0].toUpperCase();
 }
 
 export function DashboardHeader({ user, emailVerified }: DashboardHeaderProps) {
@@ -60,8 +50,13 @@ export function DashboardHeader({ user, emailVerified }: DashboardHeaderProps) {
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-mono text-xs font-bold cursor-pointer outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-              {getInitials(user.name, user.email)}
+            <button className="cursor-pointer outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+              <UserAvatar
+                avatar={user.avatar}
+                name={user.name}
+                email={user.email}
+                size={32}
+              />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
