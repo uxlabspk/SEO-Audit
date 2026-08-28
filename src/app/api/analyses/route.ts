@@ -109,27 +109,24 @@ async function runFullAudit(
     })),
   });
 
-  // Process each child sequentially to avoid overwhelming the server
   const childRecords = await prisma.analysis.findMany({
     where: { parentAnalysisId: parentId },
     orderBy: { createdAt: "asc" },
   });
 
+  // Process in parallel batches of 3
+  const BATCH = 3;
   let completed = 0;
-  for (const child of childRecords) {
+  for (let i = 0; i < childRecords.length; i += BATCH) {
+    const batch = childRecords.slice(i, i + BATCH);
     await prisma.analysis.update({
       where: { id: parentId },
       data: {
-        statusStep: `Auditing page ${completed + 1}/${childRecords.length}: ${child.url}`,
+        statusStep: `Auditing pages ${completed + 1}-${completed + batch.length}/${childRecords.length}...`,
       },
     });
-
-    try {
-      await processAnalysis(child.id);
-    } catch {
-      // processAnalysis handles its own error state
-    }
-    completed++;
+    await Promise.allSettled(batch.map((c) => processAnalysis(c.id)));
+    completed += batch.length;
   }
 
   // Gather scores from children for the parent
