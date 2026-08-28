@@ -54,6 +54,10 @@ model Analysis {
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  parentAnalysisId String?
+  parentAnalysis   Analysis?  @relation("AnalysisChildren", fields: [parentAnalysisId], references: [id], onDelete: SetNull)
+  children         Analysis[] @relation("AnalysisChildren")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   completedAt DateTime?
@@ -61,4 +65,5 @@ model Analysis {
   @@index([userId])
   @@index([url])
   @@index([createdAt])
+  @@index([parentAnalysisId])
 }

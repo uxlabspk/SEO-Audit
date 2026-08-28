@@ -7,7 +7,10 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
 
   const analyses = await prisma.analysis.findMany({
-    where: { userId: user?.id },
+    where: {
+      userId: user?.id,
+      parentAnalysisId: null, // Only show top-level audits
+    },
     orderBy: { createdAt: "desc" },
     take: 50,
     select: {
@@ -20,6 +23,7 @@ export default async function DashboardPage() {
       bestPracticesScore: true,
       createdAt: true,
       completedAt: true,
+      _count: { select: { children: true } },
     },
   });
 
@@ -35,7 +39,12 @@ export default async function DashboardPage() {
       {analyses.length === 0 ? (
         <EmptyState />
       ) : (
-        <AnalysisList analyses={analyses} />
+        <AnalysisList
+          analyses={analyses.map((a) => ({
+            ...a,
+            pageCount: a._count.children + 1,
+          }))}
+        />
       )}
     </div>
   );

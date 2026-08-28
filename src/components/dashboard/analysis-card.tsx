@@ -13,6 +13,7 @@ interface Analysis {
   bestPracticesScore: number | null;
   createdAt: Date;
   completedAt: Date | null;
+  pageCount?: number;
 }
 
 function StatusBadge({ status }: { status: AnalysisStatus }) {
@@ -116,13 +117,20 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
           />
         </div>
       )}
-      <div className="mt-3 text-xs text-muted-foreground">
-        {new Date(analysis.createdAt).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
+      <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
+        <span>
+          {new Date(analysis.createdAt).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </span>
+        {(analysis.pageCount ?? 1) > 1 && (
+          <Badge variant="outline" className="text-[10px]">
+            {analysis.pageCount} pages
+          </Badge>
+        )}
       </div>
     </Link>
   );

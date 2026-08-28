@@ -10,6 +10,7 @@ interface Analysis {
   bestPracticesScore: number | null;
   createdAt: Date;
   completedAt: Date | null;
+  pageCount?: number;
 }
 
 export function AnalysisList({ analyses }: { analyses: Analysis[] }) {

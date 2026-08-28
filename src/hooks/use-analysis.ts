@@ -30,7 +30,7 @@ export function useAnalysis() {
     setState(INITIAL_STATE);
   }, []);
 
-  const startAnalysis = useCallback(async (url: string) => {
+  const startAnalysis = useCallback(async (url: string, fullAudit = false) => {
     eventSourceRef.current?.close();
     setState({ ...INITIAL_STATE, status: "QUEUED" });
 
@@ -39,7 +39,7 @@ export function useAnalysis() {
       const resp = await fetch("/api/analyses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, fullAudit }),
       });
       if (!resp.ok) {
         const body = await resp.json().catch(() => ({}));
