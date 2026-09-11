@@ -1,3 +1,5 @@
+<div style="text-align: center" >
+
 # Probe
 
 ### Automated website audits with actionable fixes.
@@ -6,7 +8,7 @@ A **Next.js** website auditor that scans any URL, runs 8 automated checks, and s
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Prisma](https://img.shields.io/badge/Prisma-7-2D3748?style=flat-square&logo=prisma&logoColor=white)](https://www.prisma.io/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
----
+## </div>
 
 ## Why Probe?
 
@@ -134,17 +136,17 @@ Database             Throttled writes (~500ms) save findings + report
 
 ## Tech Stack
 
-| Layer | Tech |
-|-------|------|
-| Framework | **Next.js 16** App Router + Turbopack |
-| UI | **React 19** + **Tailwind CSS 4** + shadcn/ui |
-| Database | **Prisma 7** + PostgreSQL |
-| Auth | **jose** JWT + **bcrypt** |
-| HTML parsing | **cheerio** |
-| Email | **nodemailer** |
-| Validation | **zod** |
-| LLM | **LM Studio** / **Anthropic** / **OpenAI** / **Mistral** |
-| Reports | AI-generated markdown with GFM rendering |
+| Layer        | Tech                                                     |
+| ------------ | -------------------------------------------------------- |
+| Framework    | **Next.js 16** App Router + Turbopack                    |
+| UI           | **React 19** + **Tailwind CSS 4** + shadcn/ui            |
+| Database     | **Prisma 7** + PostgreSQL                                |
+| Auth         | **jose** JWT + **bcrypt**                                |
+| HTML parsing | **cheerio**                                              |
+| Email        | **nodemailer**                                           |
+| Validation   | **zod**                                                  |
+| LLM          | **LM Studio** / **Anthropic** / **OpenAI** / **Mistral** |
+| Reports      | AI-generated markdown with GFM rendering                 |
 
 ---
 
@@ -179,41 +181,41 @@ site-analyzer/
 
 All settings via environment variables:
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `DATABASE_URL` | Yes | — | PostgreSQL connection string |
-| `SESSION_SECRET` | Yes | — | JWT signing secret |
-| `LLM_PROVIDER` | Yes | `lmstudio` | `lmstudio`, `anthropic`, `openai`, `mistral` |
-| `LM_STUDIO_URL` | No | `http://localhost:1234/v1/chat/completions` | LM Studio endpoint |
-| `LM_STUDIO_MODEL` | No | `local-model` | LM Studio model name |
-| `ANTHROPIC_API_KEY` | No | — | Anthropic API key |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-4-6` | Claude model |
-| `OPENAI_API_KEY` | No | — | OpenAI API key |
-| `OPENAI_MODEL` | No | `gpt-4o` | OpenAI model |
-| `MISTRAL_API_KEY` | No | — | Mistral API key |
-| `MISTRAL_MODEL` | No | `mistral-large-latest` | Mistral model |
-| `USE_PAGESPEED` | No | `true` | Enable PageSpeed checks |
-| `PAGESPEED_API_KEY` | No | — | Google API key (optional) |
-| `SMTP_HOST` | No | — | SMTP hostname (email disabled if unset) |
-| `SMTP_PORT` | No | `587` | SMTP port |
-| `SMTP_SECURE` | No | `false` | Use TLS |
-| `SMTP_USER` | No | — | SMTP username |
-| `SMTP_PASS` | No | — | SMTP password |
-| `SMTP_FROM` | No | — | Sender address (falls back to SMTP_USER) |
-| `NEXT_PUBLIC_APP_URL` | No | `http://localhost:3000` | Public URL for email links |
+| Variable              | Required | Default                                     | Description                                  |
+| --------------------- | -------- | ------------------------------------------- | -------------------------------------------- |
+| `DATABASE_URL`        | Yes      | —                                           | PostgreSQL connection string                 |
+| `SESSION_SECRET`      | Yes      | —                                           | JWT signing secret                           |
+| `LLM_PROVIDER`        | Yes      | `lmstudio`                                  | `lmstudio`, `anthropic`, `openai`, `mistral` |
+| `LM_STUDIO_URL`       | No       | `http://localhost:1234/v1/chat/completions` | LM Studio endpoint                           |
+| `LM_STUDIO_MODEL`     | No       | `local-model`                               | LM Studio model name                         |
+| `ANTHROPIC_API_KEY`   | No       | —                                           | Anthropic API key                            |
+| `ANTHROPIC_MODEL`     | No       | `claude-sonnet-4-6`                         | Claude model                                 |
+| `OPENAI_API_KEY`      | No       | —                                           | OpenAI API key                               |
+| `OPENAI_MODEL`        | No       | `gpt-4o`                                    | OpenAI model                                 |
+| `MISTRAL_API_KEY`     | No       | —                                           | Mistral API key                              |
+| `MISTRAL_MODEL`       | No       | `mistral-large-latest`                      | Mistral model                                |
+| `USE_PAGESPEED`       | No       | `true`                                      | Enable PageSpeed checks                      |
+| `PAGESPEED_API_KEY`   | No       | —                                           | Google API key (optional)                    |
+| `SMTP_HOST`           | No       | —                                           | SMTP hostname (email disabled if unset)      |
+| `SMTP_PORT`           | No       | `587`                                       | SMTP port                                    |
+| `SMTP_SECURE`         | No       | `false`                                     | Use TLS                                      |
+| `SMTP_USER`           | No       | —                                           | SMTP username                                |
+| `SMTP_PASS`           | No       | —                                           | SMTP password                                |
+| `SMTP_FROM`           | No       | —                                           | Sender address (falls back to SMTP_USER)     |
+| `NEXT_PUBLIC_APP_URL` | No       | `http://localhost:3000`                     | Public URL for email links                   |
 
 ---
 
 ## Scripts
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run db:push` | Push Prisma schema to database |
-| `npm run db:studio` | Open Prisma Studio |
+| Command             | Purpose                        |
+| ------------------- | ------------------------------ |
+| `npm run dev`       | Start development server       |
+| `npm run build`     | Build for production           |
+| `npm run start`     | Start production server        |
+| `npm run lint`      | Run ESLint                     |
+| `npm run db:push`   | Push Prisma schema to database |
+| `npm run db:studio` | Open Prisma Studio             |
 
 ---
 
